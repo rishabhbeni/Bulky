@@ -1,10 +1,11 @@
-﻿using BulkyWeb.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Bulky.Models;
+
+//using Microsoft.AspNetCore.Identity;
 //using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace BulkyWeb.Data
+namespace Bulky.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
     {
