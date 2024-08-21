@@ -15,10 +15,10 @@ namespace Bulky.Utility
     {
         public string SendGridSecret { get; set; }
 
-        //public EmailSender(IConfiguration _config)
-        //{
-        //    SendGridSecret = _config.GetValue<string>("SendGrid:SecretKey");
-        //}
+        public EmailSender(IConfiguration _config)
+        {
+            SendGridSecret = _config.GetValue<string>("SendGrid:SecretKey");
+        }
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {

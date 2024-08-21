@@ -18,8 +18,8 @@ namespace Bulky.DataAccess.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        /* public DbSet<Company> Companies { get; set; }
-         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        /* public DbSet<ShoppingCart> ShoppingCarts { get; set; }
          public DbSet<OrderHeader> OrderHeaders { get; set; }
          public DbSet<OrderDetail> OrderDetails { get; set; }
         */
@@ -33,7 +33,7 @@ namespace Bulky.DataAccess.Data
                 new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
                 new Category { Id = 3, Name = "History", DisplayOrder = 3 }
             );
-            /*
+            
             modelBuilder.Entity<Company>().HasData(
                 new Company
                 {
@@ -66,7 +66,7 @@ namespace Bulky.DataAccess.Data
                     PhoneNumber = "1113335555"
                 }
                 );
-            */
+            
             
             modelBuilder.Entity<Product>().HasData(
                 new Product
