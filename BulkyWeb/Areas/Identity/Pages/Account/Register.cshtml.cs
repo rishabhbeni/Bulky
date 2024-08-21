@@ -145,7 +145,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 //    Value = i.Id.ToString()
                 //})
             };
-            
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
