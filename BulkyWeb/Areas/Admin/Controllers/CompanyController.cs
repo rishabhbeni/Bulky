@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Data;
 
-namespace BulkyBookWeb.Areas.Admin.Controllers
+namespace BulkyWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = SD.Role_Admin)]
