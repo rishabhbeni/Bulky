@@ -30,7 +30,6 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
-            return View();
             ShoppingCart cart = new()
             {
                 Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
@@ -68,7 +67,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
             }
             TempData["success"] = "Cart updated successfully";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details));
         }
 
         public IActionResult Privacy()

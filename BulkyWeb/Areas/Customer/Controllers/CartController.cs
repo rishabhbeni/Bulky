@@ -28,8 +28,6 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction(nameof(Index));
-            
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
@@ -37,7 +35,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
             {
                 ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId,
                 includeProperties: "Product"),
-               // OrderHeader = new()
+                OrderHeader = new()
             };
 
             IEnumerable<ProductImage> productImages = _unitOfWork.ProductImage.GetAll();
@@ -46,12 +44,12 @@ namespace BulkyWeb.Areas.Customer.Controllers
             {
                 cart.Product.ProductImages = productImages.Where(u => u.ProductId == cart.Product.Id).ToList();
                 cart.Price = GetPriceBasedOnQuantity(cart);
-               // ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
 
             return View(ShoppingCartVM);
         }
-        /*
+        
         public IActionResult Summary()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -80,7 +78,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
             }
             return View(ShoppingCartVM);
         }
-
+        
         [HttpPost]
         [ActionName("Summary")]
         public IActionResult SummaryPOST()
@@ -128,7 +126,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 _unitOfWork.OrderDetail.Add(orderDetail);
                 _unitOfWork.Save();
             }
-
+            /*
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
                 //it is a regular customer account and we need to capture payment
@@ -159,7 +157,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
                     };
                     options.LineItems.Add(sessionLineItem);
                 }
-
+                
                 var service = new SessionService();
                 Session session = service.Create(options);
                 _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
@@ -168,7 +166,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 return new StatusCodeResult(303);
 
             }
-
+            */
             return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
         }
 
@@ -176,7 +174,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
         {
 
             OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
-            if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+           /* if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
             {
                 //this is an order by customer
 
@@ -192,7 +190,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 HttpContext.Session.Clear();
 
             }
-
+            */
             _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Bulky Book",
                 $"<p>New Order Created - {orderHeader.Id}</p>");
 
@@ -204,7 +202,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
             return View(id);
         }
-        */
+        
         public IActionResult Plus(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
@@ -222,8 +220,8 @@ namespace BulkyWeb.Areas.Customer.Controllers
                 //remove that from cart
 
                 _unitOfWork.ShoppingCart.Remove(cartFromDb);
-                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
-                    .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+                /*HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);*/
             }
             else
             {
@@ -241,8 +239,8 @@ namespace BulkyWeb.Areas.Customer.Controllers
 
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
 
-            HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
-              .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+            /*HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+              .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);*/
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }

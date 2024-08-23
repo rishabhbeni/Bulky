@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Bulky.Models;
 
 namespace Bulky.DataAccess.Data
 {
@@ -20,9 +19,9 @@ namespace Bulky.DataAccess.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-       /*  public DbSet<OrderHeader> OrderHeaders { get; set; }
-         public DbSet<OrderDetail> OrderDetails { get; set; }
-        */
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
