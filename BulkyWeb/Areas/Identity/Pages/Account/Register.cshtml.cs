@@ -47,8 +47,8 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
             _roleManager = roleManager;
+            _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
@@ -109,6 +109,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+
             public string? Role { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
@@ -123,18 +124,13 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             public int? CompanyId { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> CompanyList { get; set; }
+
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
-            }
+
 
             Input = new()
             {
@@ -162,11 +158,6 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                if (Input.Role == SD.Role_Company)
-                {
-                    user.CompanyId = Input.CompanyId;
-                }
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.StreetAddress = Input.StreetAddress;
@@ -180,6 +171,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                 {
                     user.CompanyId = Input.CompanyId;
                 }
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -217,7 +209,10 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
                         {
                             TempData["success"] = "New User Created Successfully";
                         }
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                        }
                         return LocalRedirect(returnUrl);
                     }
                 }
