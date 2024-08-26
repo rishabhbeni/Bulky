@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using System.Security.Claims;
+using Stripe;
+using Stripe.Checkout;
 
 namespace BulkyWeb.Areas.Admin.Controllers
 {
@@ -106,7 +108,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             var orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 
             if (orderHeader.PaymentStatus == SD.PaymentStatusApproved)
-            {/*
+            {
                 var options = new RefundCreateOptions
                 {
                     Reason = RefundReasons.RequestedByCustomer,
@@ -115,7 +117,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
                 var service = new RefundService();
                 Refund refund = service.Create(options);
-*/
+
                 _unitOfWork.OrderHeader.UpdateStatus(orderHeader.Id, SD.StatusCancelled, SD.StatusRefunded);
             }
             else
@@ -127,7 +129,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
 
         }
-/*
+
         [ActionName("Details")]
         [HttpPost]
         public IActionResult Details_PAY_NOW()
@@ -172,8 +174,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
             _unitOfWork.Save();
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
-        }*/
-/*
+        }
+
         public IActionResult PaymentConfirmation(int orderHeaderId)
         {
 
@@ -196,7 +198,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
             return View(orderHeaderId);
         }
-*/
+
         #region API CALLS
 
         [HttpGet]

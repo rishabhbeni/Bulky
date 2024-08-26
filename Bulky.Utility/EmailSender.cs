@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Bulky.Utility
 {
@@ -24,15 +26,13 @@ namespace Bulky.Utility
         {
             //logic to send email
 
-            //var client = new SendGridClient(SendGridSecret);
+            var client = new SendGridClient(SendGridSecret);
 
-            //var from = new EmailAddress("hello@dotnetmastery.com", "Bulky Book");
-            //var to = new EmailAddress(email);
-            //var message = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
+            var from = new EmailAddress("hello@dotnetmastery.com", "Bulky Book");
+            var to = new EmailAddress(email);
+            var message = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
 
-            // return client.SendEmailAsync(message);
-
-            return Task.CompletedTask;
+            return client.SendEmailAsync(message);
         }
     }
 }
