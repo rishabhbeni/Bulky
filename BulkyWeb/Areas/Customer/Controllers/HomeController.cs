@@ -67,7 +67,7 @@ namespace BulkyWeb.Areas.Customer.Controllers
             }
             TempData["success"] = "Cart updated successfully";
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Privacy()
